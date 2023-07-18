@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import DatabaseDriver from './Drivers/Database.js'
+import RedisDriver from './Drivers/Redis.js'
 
 export interface JobRecord {
   id: number | string
@@ -84,10 +85,19 @@ export type DatabaseDriverConfig = {
 }
 
 /**
+ * Config needed by the redis driver config
+ */
+export type RedisDriverConfig = {
+  keyPrefix: string
+  pollingDelay: number
+}
+
+/**
  * A list of drivers with a unique name.
  */
 export interface QueueDriverList {
   database: (config: DatabaseDriverConfig) => DatabaseDriver
+  redis: (config: RedisDriverConfig) => RedisDriver
 }
 
 export type QueueManagerFactory = () => QueueDriver
